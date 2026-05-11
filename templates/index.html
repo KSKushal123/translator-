@@ -236,8 +236,11 @@
             });
 
             // Speech Recognition (Voice Input) with Backend Fallback
+            // Always use backend STT on deployed (HTTPS) environments where
+            // the browser Web Speech API fails with a 'network' error.
             let isRecording = false;
-            let useBackendFallback = false;
+            const isDeployed = location.protocol === 'https:';
+            let useBackendFallback = isDeployed;
 
             let audioContext;
             let mediaStreamSource;
@@ -386,9 +389,10 @@
                     isRecording = false;
                     
                     if (event.error === 'network' || event.error === 'not-allowed') {
-                        console.log("Falling back to backend STT");
+                        // Silently fall back to backend STT and start recording immediately
+                        console.log("Browser STT unavailable, switching to backend STT");
                         useBackendFallback = true;
-                        alert("Browser voice API blocked. Switching to backup audio mode. Please click the mic to try again.");
+                        startBackendRecording();
                     }
                 };
 
