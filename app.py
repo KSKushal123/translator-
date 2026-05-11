@@ -57,12 +57,42 @@ def stt():
         return jsonify({'error': 'No audio file provided'}), 400
         
     audio_file = request.files['audio']
+    filename = audio_file.filename or 'audio.webm'
     recognizer = sr.Recognizer()
     
+    # Tune recognizer for speed
+    recognizer.energy_threshold = 300
+    recognizer.pause_threshold = 0.5
+    recognizer.dynamic_energy_threshold = False
+    
     try:
-        # Load the WAV file into the recognizer
-        with sr.AudioFile(audio_file) as source:
-            audio_data = recognizer.record(source)
+        # Handle compressed formats (webm, ogg) by converting to WAV via pydub
+        if filename.endswith(('.webm', '.ogg')):
+            from pydub import AudioSegment
+            import tempfile, os
+            
+            # Save uploaded file to a temp file
+            with tempfile.NamedTemporaryFile(suffix=f'.{filename.rsplit(".", 1)[-1]}', delete=False) as tmp_in:
+                audio_file.save(tmp_in)
+                tmp_in_path = tmp_in.name
+            
+            try:
+                # Convert to WAV (mono, 16kHz for faster processing)
+                audio_segment = AudioSegment.from_file(tmp_in_path)
+                audio_segment = audio_segment.set_channels(1).set_frame_rate(16000)
+                
+                wav_buffer = io.BytesIO()
+                audio_segment.export(wav_buffer, format='wav')
+                wav_buffer.seek(0)
+                
+                with sr.AudioFile(wav_buffer) as source:
+                    audio_data = recognizer.record(source)
+            finally:
+                os.unlink(tmp_in_path)
+        else:
+            # Direct WAV handling (original path)
+            with sr.AudioFile(audio_file) as source:
+                audio_data = recognizer.record(source)
             
         # Transcribe using Google Web Speech API
         text = recognizer.recognize_google(audio_data, language='en-US')
