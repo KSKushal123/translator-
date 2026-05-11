@@ -262,13 +262,15 @@
                     audioContext = new (window.AudioContext || window.webkitAudioContext)();
                     currentSampleRate = audioContext.sampleRate;
                     mediaStreamSource = audioContext.createMediaStreamSource(stream);
-                    processor = audioContext.createScriptProcessor(4096, 1, 1);
+
+                    // Use AudioWorkletNode instead of deprecated ScriptProcessorNode
+                    await audioContext.audioWorklet.addModule('/static/audio-processor.js');
+                    processor = new AudioWorkletNode(audioContext, 'recorder-processor');
                     
                     audioChunks = [];
                     
-                    processor.onaudioprocess = function(e) {
-                        const channelData = e.inputBuffer.getChannelData(0);
-                        audioChunks.push(new Float32Array(channelData));
+                    processor.port.onmessage = (event) => {
+                        audioChunks.push(new Float32Array(event.data));
                     };
                     
                     mediaStreamSource.connect(processor);
@@ -286,6 +288,8 @@
             async function stopBackendRecording() {
                 if (!isRecording) return;
                 
+                // Signal the worklet processor to stop
+                processor.port.postMessage('stop');
                 processor.disconnect();
                 mediaStreamSource.disconnect();
                 currentStream.getTracks().forEach(track => track.stop());
