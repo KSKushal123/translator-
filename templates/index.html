@@ -310,26 +310,55 @@
 
                     mediaRecorder.onstop = async () => {
                         clearInterval(silenceCheckInterval);
-                        
+
                         micBtn.classList.remove('recording');
                         micBtn.style.color = '';
                         isRecording = false;
                         englishInput.placeholder = 'Processing speech...';
 
-                        // Show loading spinner
                         spinner.style.display = 'block';
                         btnIcon.style.display = 'none';
 
-                        const blob = new Blob(audioChunks, { type: mimeType });
-                        const formData = new FormData();
-                        const ext = mimeType.includes('webm') ? 'webm' : 'ogg';
-                        formData.append('audio', blob, `audio.${ext}`);
-
                         try {
-                            const res = await fetch('/stt', {
-                                method: 'POST',
-                                body: formData
-                            });
+                            // Decode compressed audio (webm/ogg) → raw PCM using Web Audio API
+                            const blob = new Blob(audioChunks, { type: mimeType });
+                            const arrayBuffer = await blob.arrayBuffer();
+                            const decodeCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 16000 });
+                            const audioBuffer = await decodeCtx.decodeAudioData(arrayBuffer);
+
+                            // Encode PCM → WAV (16kHz, mono, 16-bit) — no ffmpeg needed
+                            const numSamples = audioBuffer.length;
+                            const pcm = audioBuffer.getChannelData(0);
+                            const wavBuffer = new ArrayBuffer(44 + numSamples * 2);
+                            const view = new DataView(wavBuffer);
+                            const writeStr = (off, s) => { for (let i = 0; i < s.length; i++) view.setUint8(off + i, s.charCodeAt(i)); };
+                            const sampleRate = audioBuffer.sampleRate;
+                            writeStr(0, 'RIFF');
+                            view.setUint32(4, 36 + numSamples * 2, true);
+                            writeStr(8, 'WAVE');
+                            writeStr(12, 'fmt ');
+                            view.setUint32(16, 16, true);
+                            view.setUint16(20, 1, true);   // PCM
+                            view.setUint16(22, 1, true);   // mono
+                            view.setUint32(24, sampleRate, true);
+                            view.setUint32(28, sampleRate * 2, true);
+                            view.setUint16(32, 2, true);
+                            view.setUint16(34, 16, true);
+                            writeStr(36, 'data');
+                            view.setUint32(40, numSamples * 2, true);
+                            let idx = 44;
+                            for (let i = 0; i < numSamples; i++) {
+                                const s = Math.max(-1, Math.min(1, pcm[i]));
+                                view.setInt16(idx, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+                                idx += 2;
+                            }
+                            await decodeCtx.close();
+
+                            const wavBlob = new Blob([wavBuffer], { type: 'audio/wav' });
+                            const formData = new FormData();
+                            formData.append('audio', wavBlob, 'audio.wav');
+
+                            const res = await fetch('/stt', { method: 'POST', body: formData });
                             const data = await res.json();
 
                             if (res.ok && data.text) {
