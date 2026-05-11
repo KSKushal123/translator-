@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English to Kannada Translator</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Main Style -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                        stroke="url(#paint0_linear)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M2 12H22" stroke="url(#paint1_linear)" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <path
+                        d="M12 2C14.5013 4.73835 15.9228 8.29203 16 12C15.9228 15.708 14.5013 19.2616 12 22C9.49872 19.2616 8.07725 15.708 8 12C8.07725 8.29203 9.49872 4.73835 12 2Z"
+                        stroke="url(#paint2_linear)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <defs>
+                        <linearGradient id="paint0_linear" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#4F46E5" />
+                            <stop offset="1" stop-color="#EC4899" />
+                        </linearGradient>
+                        <linearGradient id="paint1_linear" x1="2" y1="12" x2="22" y2="12"
+                            gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#4F46E5" />
+                            <stop offset="1" stop-color="#EC4899" />
+                        </linearGradient>
+                        <linearGradient id="paint2_linear" x1="12" y1="2" x2="12" y2="22"
+                            gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#4F46E5" />
+                            <stop offset="1" stop-color="#EC4899" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <h1>Good<span class="highlight">Translator</span></h1>
+            </div>
+            <p class="subtitle">English to Kannada Translator</p>
+        </header>
+
+        <main class="translator-grid">
+            <div class="input-card">
+                <div class="card-header">
+                    <span class="lang-badge">English</span>
+                    <button id="mic-btn" class="icon-btn" title="Start voice input">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C10.3431 2 9 3.34315 9 5V11C9 12.6569 10.3431 14 12 14C13.6569 14 15 12.6569 15 11V5C15 3.34315 13.6569 2 12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M19 10V11C19 14.866 15.866 18 12 18C8.13401 18 5 14.866 5 11V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 18V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 22H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+                <textarea id="english-input" placeholder="Type or paste your English text here..."
+                    spellcheck="false"></textarea>
+                <div class="card-footer">
+                    <span id="char-count">0 characters</span>
+                </div>
+            </div>
+
+            <div class="action-section">
+                <button id="translate-btn" class="primary-btn">
+                    <span class="btn-text">Translate</span>
+                    <svg class="translate-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <div class="spinner" style="display: none;"></div>
+                </button>
+            </div>
+
+            <div class="output-card">
+                <div class="card-header">
+                    <select id="target-language" class="lang-badge accent lang-select">
+                        <option value="kn">Kannada</option>
+                        <option value="hi">Hindi</option>
+                        <option value="te">Telugu</option>
+                        <option value="ta">Tamil</option>
+                        <option value="ml">Malayalam</option>
+                        <option value="mr">Marathi</option>
+                        <option value="bn">Bengali</option>
+                        <option value="gu">Gujarati</option>
+                        <option value="ur">Urdu</option>
+                        <option value="fr">French</option>
+                        <option value="es">Spanish</option>
+                    </select>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button id="speak-btn" class="icon-btn" title="Listen to translation">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11 5L6 9H2V15H6L11 19V5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M15.54 8.46C16.4774 9.39764 17.004 10.6692 17.004 11.995C17.004 13.3208 16.4774 14.5924 15.54 15.53" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M19.07 4.93C20.9447 6.80527 21.9979 9.34835 21.9979 12C21.9979 14.6516 20.9447 17.1947 19.07 19.07" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <button id="copy-btn" class="icon-btn" title="Copy to clipboard">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M8 16H6C5.46957 16 4.96086 15.7893 4.58579 15.4142C4.21071 15.0391 4 14.5304 4 14V6C4 5.46957 4.21071 4.96086 4.58579 4.58579C4.96086 4.21071 5.46957 4 6 4H14C14.5304 4 15.0391 4.21071 15.4142 4.58579C15.7893 4.96086 16 5.46957 16 6V8M16 8H20C20.5304 8 21.0391 8.21071 21.4142 8.58579C21.7893 8.96086 22 9.46957 22 10V20C22 20.5304 21.7893 21.0391 21.4142 21.4142C21.0391 21.7893 20.5304 22 20 22H10C9.46957 22 8.96086 21.7893 8.58579 21.4142C8.21071 21.0391 8 20.5304 8 20V16H16V8Z"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <textarea id="kannada-output" placeholder="Translation will appear here..." readonly></textarea>
+                <div class="card-footer" id="error-message" style="color: #F87171; display: none;"></div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const englishInput = document.getElementById('english-input');
+            const kannadaOutput = document.getElementById('kannada-output');
+            const translateBtn = document.getElementById('translate-btn');
+            const copyBtn = document.getElementById('copy-btn');
+            const micBtn = document.getElementById('mic-btn');
+            const speakBtn = document.getElementById('speak-btn');
+            const charCount = document.getElementById('char-count');
+            const errorMessage = document.getElementById('error-message');
+            const btnText = document.querySelector('.btn-text');
+            const btnIcon = document.querySelector('.translate-icon');
+            const spinner = document.querySelector('.spinner');
+
+            // Character count
+            englishInput.addEventListener('input', () => {
+                charCount.textContent = `${englishInput.value.length} characters`;
+            });
+
+            // Translate
+            const performTranslation = async (autoSpeak = false) => {
+                const text = englishInput.value.trim();
+                const targetLanguage = document.getElementById('target-language').value;
+
+                if (!text) {
+                    kannadaOutput.value = '';
+                    return;
+                }
+
+                // UI loading state
+                translateBtn.disabled = true;
+                btnText.style.display = 'none';
+                btnIcon.style.display = 'none';
+                spinner.style.display = 'block';
+                errorMessage.style.display = 'none';
+                kannadaOutput.classList.add('loading');
+
+                try {
+                    const response = await fetch('/translate', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ text: text, target_lang: targetLanguage })
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.error || 'Translation failed');
+                    }
+
+                    kannadaOutput.value = data.translation;
+                    
+                    if (autoSpeak === true) {
+                        speakBtn.click();
+                    }
+                } catch (error) {
+                    errorMessage.textContent = error.message;
+                    errorMessage.style.display = 'block';
+                    kannadaOutput.value = '';
+                } finally {
+                    // Reset UI
+                    translateBtn.disabled = false;
+                    btnText.style.display = 'block';
+                    btnIcon.style.display = 'block';
+                    spinner.style.display = 'none';
+                    kannadaOutput.classList.remove('loading');
+                }
+            };
+
+            translateBtn.addEventListener('click', performTranslation);
+
+            // Cmd/Ctrl + Enter to translate
+            englishInput.addEventListener('keydown', (e) => {
+                if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+                    performTranslation();
+                }
+            });
+
+            // Copy functionality
+            copyBtn.addEventListener('click', () => {
+                if (!kannadaOutput.value) return;
+
+                navigator.clipboard.writeText(kannadaOutput.value).then(() => {
+                    const originalHTML = copyBtn.innerHTML;
+                    copyBtn.innerHTML = `
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 6L9 17L4 12" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    `;
+                    setTimeout(() => {
+                        copyBtn.innerHTML = originalHTML;
+                    }, 2000);
+                });
+            });
+
+            // Speech Recognition (Voice Input)
+            let recognition;
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = 'en-US';
+                
+                let didGetResult = false;
+
+                recognition.onstart = () => {
+                    micBtn.classList.add('recording');
+                    micBtn.style.color = '#EC4899';
+                    didGetResult = false;
+                };
+
+                recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript;
+                    englishInput.value = transcript; // Replace existing text for a truly "live" feel
+                    charCount.textContent = `${englishInput.value.length} characters`;
+                    didGetResult = true;
+                };
+
+                recognition.onerror = (event) => {
+                    console.error('Speech recognition error', event.error);
+                    micBtn.classList.remove('recording');
+                    micBtn.style.color = '';
+                };
+
+                recognition.onend = () => {
+                    micBtn.classList.remove('recording');
+                    micBtn.style.color = '';
+                    if (didGetResult) {
+                        performTranslation(true);
+                    }
+                };
+
+                micBtn.addEventListener('click', () => {
+                    if (micBtn.classList.contains('recording')) {
+                        recognition.stop();
+                    } else {
+                        recognition.start();
+                    }
+                });
+            } else {
+                micBtn.style.display = 'none';
+                console.warn('Speech recognition not supported in this browser.');
+            }
+
+            // Speech Synthesis (Voice Output) using backend gTTS
+            const audioPlayer = new Audio();
+            
+            speakBtn.addEventListener('click', () => {
+                const text = kannadaOutput.value.trim();
+                if (!text) return;
+                
+                const targetLanguage = document.getElementById('target-language').value;
+                
+                speakBtn.disabled = true;
+                
+                audioPlayer.src = `/tts?text=${encodeURIComponent(text)}&lang=${targetLanguage}`;
+                audioPlayer.play()
+                    .catch(e => console.error("Error playing audio:", e))
+                    .finally(() => {
+                        speakBtn.disabled = false;
+                    });
+            });
+        });
+    </script>
+</body>
+
+</html>
