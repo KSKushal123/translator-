@@ -59,10 +59,15 @@
                     <span class="lang-badge">English</span>
                     <button id="mic-btn" class="icon-btn" title="Start voice input">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2C10.3431 2 9 3.34315 9 5V11C9 12.6569 10.3431 14 12 14C13.6569 14 15 12.6569 15 11V5C15 3.34315 13.6569 2 12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M19 10V11C19 14.866 15.866 18 12 18C8.13401 18 5 14.866 5 11V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M12 18V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M8 22H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path
+                                d="M12 2C10.3431 2 9 3.34315 9 5V11C9 12.6569 10.3431 14 12 14C13.6569 14 15 12.6569 15 11V5C15 3.34315 13.6569 2 12 2Z"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M19 10V11C19 14.866 15.866 18 12 18C8.13401 18 5 14.866 5 11V10"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M12 18V22" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M8 22H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
                         </svg>
                     </button>
                 </div>
@@ -102,17 +107,27 @@
                     </select>
                     <div style="display: flex; gap: 0.5rem;">
                         <button id="speak-btn" class="icon-btn" title="Listen to translation">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M11 5L6 9H2V15H6L11 19V5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M15.54 8.46C16.4774 9.39764 17.004 10.6692 17.004 11.995C17.004 13.3208 16.4774 14.5924 15.54 15.53" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M19.07 4.93C20.9447 6.80527 21.9979 9.34835 21.9979 12C21.9979 14.6516 20.9447 17.1947 19.07 19.07" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11 5L6 9H2V15H6L11 19V5Z" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path
+                                    d="M15.54 8.46C16.4774 9.39764 17.004 10.6692 17.004 11.995C17.004 13.3208 16.4774 14.5924 15.54 15.53"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path
+                                    d="M19.07 4.93C20.9447 6.80527 21.9979 9.34835 21.9979 12C21.9979 14.6516 20.9447 17.1947 19.07 19.07"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
                             </svg>
                         </button>
                         <button id="copy-btn" class="icon-btn" title="Copy to clipboard">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M8 16H6C5.46957 16 4.96086 15.7893 4.58579 15.4142C4.21071 15.0391 4 14.5304 4 14V6C4 5.46957 4.21071 4.96086 4.58579 4.58579C4.96086 4.21071 5.46957 4 6 4H14C14.5304 4 15.0391 4.21071 15.4142 4.58579C15.7893 4.96086 16 5.46957 16 6V8M16 8H20C20.5304 8 21.0391 8.21071 21.4142 8.58579C21.7893 8.96086 22 9.46957 22 10V20C22 20.5304 21.7893 21.0391 21.4142 21.4142C21.0391 21.7893 20.5304 22 20 22H10C9.46957 22 8.96086 21.7893 8.58579 21.4142C8.21071 21.0391 8 20.5304 8 20V16H16V8Z"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
                             </svg>
                         </button>
                     </div>
@@ -176,7 +191,7 @@
                     }
 
                     kannadaOutput.value = data.translation;
-                    
+
                     if (autoSpeak === true) {
                         speakBtn.click();
                     }
@@ -220,7 +235,126 @@
                 });
             });
 
-            // Speech Recognition (Voice Input)
+            // Speech Recognition (Voice Input) with Backend Fallback
+            let isRecording = false;
+            let useBackendFallback = false;
+
+            let audioContext;
+            let mediaStreamSource;
+            let processor;
+            let audioChunks = [];
+            let currentStream;
+            let currentSampleRate;
+
+            function writeString(view, offset, string) {
+                for (let i = 0; i < string.length; i++) {
+                    view.setUint8(offset + i, string.charCodeAt(i));
+                }
+            }
+
+            async function startBackendRecording() {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    currentStream = stream;
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    currentSampleRate = audioContext.sampleRate;
+                    mediaStreamSource = audioContext.createMediaStreamSource(stream);
+                    processor = audioContext.createScriptProcessor(4096, 1, 1);
+                    
+                    audioChunks = [];
+                    
+                    processor.onaudioprocess = function(e) {
+                        const channelData = e.inputBuffer.getChannelData(0);
+                        audioChunks.push(new Float32Array(channelData));
+                    };
+                    
+                    mediaStreamSource.connect(processor);
+                    processor.connect(audioContext.destination);
+                    
+                    micBtn.classList.add('recording');
+                    micBtn.style.color = '#EC4899';
+                    isRecording = true;
+                } catch (err) {
+                    console.error("Microphone access denied or error:", err);
+                    alert("Cannot access microphone. Ensure site is on HTTPS.");
+                }
+            }
+
+            async function stopBackendRecording() {
+                if (!isRecording) return;
+                
+                processor.disconnect();
+                mediaStreamSource.disconnect();
+                currentStream.getTracks().forEach(track => track.stop());
+                
+                micBtn.classList.remove('recording');
+                micBtn.style.color = '';
+                isRecording = false;
+                
+                // Show loading spinner
+                spinner.style.display = 'block';
+                btnIcon.style.display = 'none';
+                
+                // Convert to WAV
+                const totalLength = audioChunks.reduce((acc, val) => acc + val.length, 0);
+                const result = new Float32Array(totalLength);
+                let offset = 0;
+                for (let i = 0; i < audioChunks.length; i++) {
+                    result.set(audioChunks[i], offset);
+                    offset += audioChunks[i].length;
+                }
+                
+                const buffer = new ArrayBuffer(44 + result.length * 2);
+                const view = new DataView(buffer);
+                
+                writeString(view, 0, 'RIFF');
+                view.setUint32(4, 36 + result.length * 2, true);
+                writeString(view, 8, 'WAVE');
+                writeString(view, 12, 'fmt ');
+                view.setUint32(16, 16, true); 
+                view.setUint16(20, 1, true); 
+                view.setUint16(22, 1, true); 
+                view.setUint32(24, currentSampleRate, true); 
+                view.setUint32(28, currentSampleRate * 2, true); 
+                view.setUint16(32, 2, true); 
+                view.setUint16(34, 16, true); 
+                writeString(view, 36, 'data');
+                view.setUint32(40, result.length * 2, true);
+                
+                let index = 44;
+                for (let i = 0; i < result.length; i++) {
+                    let s = Math.max(-1, Math.min(1, result[i]));
+                    view.setInt16(index, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+                    index += 2;
+                }
+                
+                const blob = new Blob([view], { type: 'audio/wav' });
+                const formData = new FormData();
+                formData.append('audio', blob, 'audio.wav');
+                
+                try {
+                    const res = await fetch('/stt', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await res.json();
+                    
+                    if (res.ok && data.text) {
+                        englishInput.value = data.text;
+                        charCount.textContent = `${englishInput.value.length} characters`;
+                        performTranslation(true);
+                    } else {
+                        throw new Error(data.error || 'Failed to transcribe');
+                    }
+                } catch (err) {
+                    console.error("Backend STT error:", err);
+                    alert("Could not process speech: " + err.message);
+                } finally {
+                    spinner.style.display = 'none';
+                    btnIcon.style.display = 'block';
+                }
+            }
+
             let recognition;
             if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
                 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -232,6 +366,7 @@
                 let didGetResult = false;
 
                 recognition.onstart = () => {
+                    isRecording = true;
                     micBtn.classList.add('recording');
                     micBtn.style.color = '#EC4899';
                     didGetResult = false;
@@ -239,7 +374,7 @@
 
                 recognition.onresult = (event) => {
                     const transcript = event.results[0][0].transcript;
-                    englishInput.value = transcript; // Replace existing text for a truly "live" feel
+                    englishInput.value = transcript;
                     charCount.textContent = `${englishInput.value.length} characters`;
                     didGetResult = true;
                 };
@@ -248,39 +383,60 @@
                     console.error('Speech recognition error', event.error);
                     micBtn.classList.remove('recording');
                     micBtn.style.color = '';
+                    isRecording = false;
+                    
+                    if (event.error === 'network' || event.error === 'not-allowed') {
+                        console.log("Falling back to backend STT");
+                        useBackendFallback = true;
+                        alert("Browser voice API blocked. Switching to backup audio mode. Please click the mic to try again.");
+                    }
                 };
 
                 recognition.onend = () => {
+                    if (useBackendFallback) return;
                     micBtn.classList.remove('recording');
                     micBtn.style.color = '';
+                    isRecording = false;
                     if (didGetResult) {
                         performTranslation(true);
                     }
                 };
-
-                micBtn.addEventListener('click', () => {
-                    if (micBtn.classList.contains('recording')) {
-                        recognition.stop();
-                    } else {
-                        recognition.start();
-                    }
-                });
             } else {
-                micBtn.style.display = 'none';
-                console.warn('Speech recognition not supported in this browser.');
+                useBackendFallback = true;
             }
+
+            micBtn.addEventListener('click', () => {
+                if (isRecording) {
+                    if (useBackendFallback) {
+                        stopBackendRecording();
+                    } else {
+                        recognition.stop();
+                    }
+                } else {
+                    if (useBackendFallback) {
+                        startBackendRecording();
+                    } else {
+                        try {
+                            recognition.start();
+                        } catch(e) {
+                            useBackendFallback = true;
+                            startBackendRecording();
+                        }
+                    }
+                }
+            });
 
             // Speech Synthesis (Voice Output) using backend gTTS
             const audioPlayer = new Audio();
-            
+
             speakBtn.addEventListener('click', () => {
                 const text = kannadaOutput.value.trim();
                 if (!text) return;
-                
+
                 const targetLanguage = document.getElementById('target-language').value;
-                
+
                 speakBtn.disabled = true;
-                
+
                 audioPlayer.src = `/tts?text=${encodeURIComponent(text)}&lang=${targetLanguage}`;
                 audioPlayer.play()
                     .catch(e => console.error("Error playing audio:", e))

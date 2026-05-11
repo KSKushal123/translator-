@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify, send_file
 from deep_translator import GoogleTranslator
+import speech_recognition as sr
 from gtts import gTTS
 import io
 
@@ -49,6 +50,29 @@ def tts():
         return send_file(fp, mimetype='audio/mpeg')
     except Exception as e:
         return str(e), 500
+
+@app.route('/stt', methods=['POST'])
+def stt():
+    if 'audio' not in request.files:
+        return jsonify({'error': 'No audio file provided'}), 400
+        
+    audio_file = request.files['audio']
+    recognizer = sr.Recognizer()
+    
+    try:
+        # Load the WAV file into the recognizer
+        with sr.AudioFile(audio_file) as source:
+            audio_data = recognizer.record(source)
+            
+        # Transcribe using Google Web Speech API
+        text = recognizer.recognize_google(audio_data, language='en-US')
+        return jsonify({'text': text})
+    except sr.UnknownValueError:
+        return jsonify({'error': 'Could not understand audio'}), 400
+    except sr.RequestError as e:
+        return jsonify({'error': f'Could not request results; {e}'}), 500
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
